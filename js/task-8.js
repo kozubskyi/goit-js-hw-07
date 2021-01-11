@@ -12,15 +12,42 @@
 const inputRef = document.querySelector('#controls > input');
 const renderBtnRef = document.querySelector('button[data-action="render"]');
 const destroyBtnRef = document.querySelector('button[data-action="destroy"]');
-const collectionBlockRef = document.querySelector('#boxes');
+const boxesRef = document.querySelector('#boxes');
 
-const createBoxes = amount => {};
+function createBoxes() {
+  let divArray = [];
+  let divSize = 30;
 
-const createRandomColor = () => {
-  const r = Math.round(Math.random() * (256.5 - 0.5) + 0.5) - 1;
-  const g = Math.round(Math.random() * (256.5 - 0.5) + 0.5) - 1;
-  const b = Math.round(Math.random() * (256.5 - 0.5) + 0.5) - 1;
-  return `${(r, g, b)}`;
-};
+  for (let i = 0; i < inputRef.value; i++) {
+    let div = document.createElement('div');
 
-inputRef.addEventListener('input', event => {});
+    div.style.backgroundColor = createRandomColor();
+    div.style.width = `${divSize}px`;
+    div.style.height = `${divSize}px`;
+    divSize = changeDivSize(divSize);
+
+    divArray.push(div);
+  }
+  boxesRef.append(...divArray);
+}
+
+function destroyBoxes() {
+  boxesRef.innerHTML = '';
+}
+
+function createRandomColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  console.log(`rgb(${r}, ${g}, ${b})`);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function changeDivSize(divSize) {
+  divSize += 10;
+  return divSize;
+}
+
+renderBtnRef.addEventListener('click', createBoxes);
+
+destroyBtnRef.addEventListener('click', destroyBoxes);
